@@ -2,6 +2,7 @@ import SwiftCompilerPlugin
 import SwiftSyntax
 import SwiftSyntaxBuilder
 import SwiftSyntaxMacros
+import SwiftDiagnostics
 
 public struct StaticMemberIterableMacro: MemberMacro {
   public static func expansion<Declaration, Context>(
@@ -25,8 +26,33 @@ public struct StaticMemberIterableMacro: MemberMacro {
             }
             .first
         }
+
+      guard !staticMemberNames.isEmpty else {
+        context.diagnose(Diagnostic(node: node.root, message: NoStaticMembersWarning()))
+        return []
+      }
       return ["static let allStaticMembers = [\(raw: staticMemberNames.joined(separator: ", "))]"]
     }
+
+  public struct NotATypeError: DiagnosticMessage {
+    
+    public var message: String { "`StaticMemberIterable` works on a `class`, `enum`, or `struct`" }
+
+    public var diagnosticID: SwiftDiagnostics.MessageID { .init(domain: "StaticMemberIterableMacro", id: "NotATypeMembersError")}
+
+    public var severity: SwiftDiagnostics.DiagnosticSeverity { .error }
+  }
+
+  public struct NoStaticMembersWarning: DiagnosticMessage {
+
+    public var message: String {
+        "'@StaticMemberIterable' does not generate an empty list when there are no static members"
+    }
+
+    public var diagnosticID: SwiftDiagnostics.MessageID { .init(domain: "StaticMemberIterableMacro", id: "NoStaticMembersWarning")}
+
+    public var severity: SwiftDiagnostics.DiagnosticSeverity { .warning }
+  }
 }
 
 private extension VariableDeclSyntax {

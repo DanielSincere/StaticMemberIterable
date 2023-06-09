@@ -84,4 +84,64 @@ final class StaticMemberIterableTests: XCTestCase {
       macros: testMacros
     )
   }
+
+  func testStructWithNoStaticMembers() {
+    assertMacroExpansion(
+      """
+      @StaticMemberIterable
+      struct Fruit {
+        let name: String
+      }
+      """,
+      expandedSource:
+      """
+
+      struct Fruit {
+        let name: String
+      }
+      """,
+      diagnostics: [DiagnosticSpec(message: "'@StaticMemberIterable' does not generate an empty list when there are no static members", line: 1, column: 1, severity: .warning)],
+      macros: testMacros
+    )
+  }
+
+  func testClassWithNoStaticMembers() {
+    assertMacroExpansion(
+      """
+      @StaticMemberIterable
+      class Fruit {
+        let name: String
+      }
+      """,
+      expandedSource:
+      """
+
+      class Fruit {
+        let name: String
+      }
+      """,
+      diagnostics: [DiagnosticSpec(message: "'@StaticMemberIterable' does not generate an empty list when there are no static members", line: 1, column: 1, severity: .warning)],
+      macros: testMacros
+    )
+  }
+
+  func testEnumWithNoStaticMembers() {
+    assertMacroExpansion(
+      """
+      @StaticMemberIterable
+      enum Fruit {
+        case mango
+      }
+      """,
+      expandedSource:
+      """
+
+      enum Fruit {
+        case mango
+      }
+      """,
+      diagnostics: [DiagnosticSpec(message: "'@StaticMemberIterable' does not generate an empty list when there are no static members", line: 1, column: 1, severity: .warning)],
+      macros: testMacros
+    )
+  }
 }
