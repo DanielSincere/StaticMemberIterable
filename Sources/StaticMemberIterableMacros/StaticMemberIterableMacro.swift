@@ -11,7 +11,7 @@ public struct StaticMemberIterableMacro: MemberMacro {
     in context: Context) throws -> [SwiftSyntax.DeclSyntax] where Declaration : SwiftSyntax.DeclGroupSyntax, Context : SwiftSyntaxMacros.MacroExpansionContext {
 
       let staticMemberNames: [String] = declaration.memberBlock.members
-        .flatMap { (memberDeclListItemSyntax: MemberDeclListItemSyntax) in
+        .flatMap { (memberDeclListItemSyntax: MemberBlockItemSyntax) in
           memberDeclListItemSyntax
             .children(viewMode: .fixedUp)
             .compactMap({ $0.as(VariableDeclSyntax.self) })
@@ -57,11 +57,7 @@ public struct StaticMemberIterableMacro: MemberMacro {
 
 private extension VariableDeclSyntax {
   var hasStaticModifier: Bool {
-    guard let modifiers = self.modifiers else {
-      return false
-    }
-
-    return modifiers.children(viewMode: .fixedUp)
+    self.modifiers.children(viewMode: .fixedUp)
       .compactMap { syntax in
         syntax.as(DeclModifierSyntax.self)?
           .children(viewMode: .fixedUp)

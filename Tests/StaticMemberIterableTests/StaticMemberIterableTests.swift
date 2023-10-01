@@ -25,7 +25,8 @@ final class StaticMemberIterableTests: XCTestCase {
       enum Fixtures {
         static let a = MyRecord()
         static let b = MyRecord()
-        static let allStaticMembers = [a, b]
+    
+          static let allStaticMembers = [a, b]
       }
     }
     """,
@@ -52,7 +53,8 @@ final class StaticMemberIterableTests: XCTestCase {
       case blue
       static let original = Flavors.blue
       static let newest = Flavors.green
-      static let allStaticMembers = [original, newest]
+    
+        static let allStaticMembers = [original, newest]
     }
     """,
     macros: testMacros
@@ -78,7 +80,8 @@ final class StaticMemberIterableTests: XCTestCase {
         let heatLevel: Int
         static let jalapeño = Chili(name: "jalapeño", heatLevel: 2)
         static let habenero = Chili(name: "habenero", heatLevel: 5)
-        static let allStaticMembers = [jalapeño, habenero]
+      
+          static let allStaticMembers = [jalapeño, habenero]
       }
       """,
       macros: testMacros
