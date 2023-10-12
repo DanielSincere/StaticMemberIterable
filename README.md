@@ -33,7 +33,7 @@ struct Chili {
 
 In `Package.swift`, add the package to your dependencies.
 ```
-.package(url: "https://github.com/FullQueueDeveloper/StaticMemberIterable.git", from: "0.1.0"),
+.package(url: "https://github.com/FullQueueDeveloper/StaticMemberIterable.git", from: "1.0.0"),
 ```
 
 And add `"StaticMemberIterable"` to the list of your target's dependencies.
